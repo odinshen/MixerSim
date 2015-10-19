@@ -11,9 +11,10 @@ function y = mixer(test_mode, noise_scale, signal_freq_start, signal_freq_end, s
 close all
 % clc
 
-fs = 50e6;   % 50M
+fs = 50e6 * 50;   % 50M
 % mixing_duration = 200e-6;   % 200us
-mixing_duration = 10e-3;   % 1ms
+% mixing_duration = 10e-3;   % 1ms
+mixing_duration = 200e-6;   % 200us
 
 noise_type = ['LCD 0kohm '; 'LCD 20kohm'; 'LCD High Z'; 'SQR 0kohm '; 'SQR 20kohm'; 'SQR High Z'];
 plot_color = ['b'; 'r'; 'c'; 'k'; 'g'; 'm'];

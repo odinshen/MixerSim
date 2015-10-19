@@ -93,7 +93,8 @@ elseif sim_select == 3
             int_threshold     = 0;                      % Input 8
         %}
     else
-        mixer_signal_sweeping_500kmat(32+4, 1, 200e3, 1e6, 500, 36, 1, 0)  %% quick test
+%        mixer_signal_sweeping_500kmat(32+4, 1, 10e3, 2e6, 1e3, 6, 1, 0)  %% quick test
+        mixer_signal_sweeping_500kmat(3*16+8, 1, 10e3, 1e6, 200, 4, 1, 0)  %% quick test
     end
 
 elseif sim_select == 9
@@ -102,6 +103,6 @@ elseif sim_select == 9
     disp('Type Test 2')
     mixer_signal_sweeping(63, 32.75e3, 1e3, 1e6, 200, 36, 1, 0)  %% quick test
     disp('Type Test 3')
-    mixer_signal_sweeping_500kmat(3, 1, 200e3, 1e6, 500, 6, 1, 0)  %% quick test
+    mixer_signal_sweeping_500kmat(3*16+8, 1, 10e3, 1e6, 200, 4, 1, 0)  %% quick test
 end
 

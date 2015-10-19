@@ -37,7 +37,7 @@ if sim_select == 1
             int_threshold    = 0;
         %}
     else
-        mixer_noise_sweeping(3,200e3,1e3,40e3,200,36,1,0)  %% quick test
+        mixer_noise_sweeping(63,200e3,1e3,1e6,200,36,1,0)  %% quick test
     end
 elseif sim_select == 2
     disp('Type 2')
@@ -65,7 +65,7 @@ elseif sim_select == 2
             int_threshold     = 0;                      % Input 8
         %}
     else
-        mixer_signal_sweeping(63, 32.75e3, 10e3, 500e3, 200, 36, 1, 0)  %% quick test
+        mixer_signal_sweeping(63, 32.75e3, 1e3, 1e6, 200, 36, 1, 0)  %% quick test
     end
 elseif sim_select == 3
     disp('Type 3')
@@ -93,14 +93,14 @@ elseif sim_select == 3
             int_threshold     = 0;                      % Input 8
         %}
     else
-        mixer_signal_sweeping_500kmat(16+8, 1, 200e3, 1e6, 500, 36, 1, 0)  %% quick test
+        mixer_signal_sweeping_500kmat(32+4, 1, 200e3, 1e6, 500, 36, 1, 0)  %% quick test
     end
 
 elseif sim_select == 9
     disp('Type Test 1')
-    mixer_noise_sweeping(3,200e3,1e3,40e3,200,36,1,0)  %% quick test
+    mixer_noise_sweeping(63,200e3,1e3,1e6,200,36,1,0)  %% quick test
     disp('Type Test 2')
-    mixer_signal_sweeping(3, 32.75e3, 1e3, 40e3, 200, 36, 1, 0)  %% quick test
+    mixer_signal_sweeping(63, 32.75e3, 1e3, 1e6, 200, 36, 1, 0)  %% quick test
     disp('Type Test 3')
     mixer_signal_sweeping_500kmat(3, 1, 200e3, 1e6, 500, 6, 1, 0)  %% quick test
 end

@@ -3,7 +3,7 @@
 % Sweep [SIGNAL] from noise_freq_start ~ noise_freq_end
 %
 
-function y = mixer(test_mode, noise_freq, signal_freq_start, signal_freq_end, signal_freq_step, signal_phase_cnt, noise_level, int_threshold)
+function y = mixer(desc, test_mode, noise_freq, signal_freq_start, signal_freq_end, signal_freq_step, signal_phase_cnt, noise_level, int_threshold)
 %function y = mixer(test_mode, mixer_freq, noise_freq_start, noise_freq_end, noise_freq_step, noise_phase_cnt, noise_level, int_threshold)
 
 % clear
@@ -31,8 +31,9 @@ measure_types = 4;
             % MIN_INT_PHASE
 
 noise_type_str = cellstr(noise_type);
+save_ws = 1
 
-if nargin < 8
+if nargin ~= 9
     disp('[Usage]:')
     disp('        Input1: test_mode')
     disp('        Input2: noise_freq')
@@ -52,6 +53,10 @@ if nargin < 8
     signal_phase_cnt  = 36;    % 360/18         % Input 6
     noise_level       = 1;                      % Input 7
     int_threshold     = 0;                      % Input 8
+    if nargin == 0
+        desc         = 'Normal';
+        save_ws      = 0;
+    end
 end
 
 %Check Input Parameters
@@ -69,7 +74,7 @@ disp(sprintf('Noise freq %d Khz', noise_freq/1000));
 disp(sprintf('Sweep noise from %d Khz ~ %d Khz [step: %d Hz] [phase_cnt: %d]', signal_freq_start/1000, signal_freq_end/1000, signal_freq_step, signal_phase_cnt));
 disp(sprintf('      noise level %d', noise_level));
 disp(sprintf('      check INT Threshold %d', int_threshold));
-
+disp(sprintf('      desc: %s', desc));
 test_list = [];
 for curr_noise=1:(noise_types)
     if bitand(test_mode, 2^(curr_noise-1))
@@ -277,12 +282,19 @@ end
 %
 % Save to WS
 %
-assignin('base', 'signal_sweep_noise_freq',     test_freq);
+assignin('base', 'signal_sweep_freq',           test_freq);
 assignin('base', 'signal_sweep_sina_max',       sina_max_log);
 assignin('base', 'signal_sweep_sina_max_phase', sina_maxphase_log);
 assignin('base', 'signal_sweep_sqr_max',        sqr_max_log);
 assignin('base', 'signal_sweep_sqr_max_phase',  sqr_maxphase_log);
 assignin('base', 'signal_sweep_noise_type',     noise_type_str);
+
+if save_ws
+    disp('Save wordspace')
+    file_name = sprintf('log\\%s_noise_sweep.mat', desc);
+    disp(file_name);
+    save(file_name, 'test_freq', 'sina_max_log', 'sina_maxphase_log', 'sqr_max_log', 'sqr_maxphase_log', 'noise_type_str');
+end
 
 
 %

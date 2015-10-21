@@ -3,7 +3,7 @@
 % Sweep [NOISE] from noise_freq_start ~ noise_freq_end
 %
 
-function y = mixer(test_mode, mixer_freq, noise_freq_start, noise_freq_end, noise_freq_step, noise_phase_cnt, noise_level, int_threshold)
+function y = mixer(desc, test_mode, mixer_freq, noise_freq_start, noise_freq_end, noise_freq_step, noise_phase_cnt, noise_level, int_threshold)
 
 % clear
 close all
@@ -31,27 +31,33 @@ measure_types = 4;
 
 noise_type_str = cellstr(noise_type);
 
-if nargin < 8
+save_ws = 1;
+if nargin ~= 9
     disp('[Usage]:')
-    disp('        Input1: test_mode')
-    disp('        Input2: mixer_freq')
-    disp('        Input3: noise_freq_start')
-    disp('        Input4: noise_freq_end')
-    disp('        Input5: noise_freq_step')
-    disp('        Input6: noise_phase_cnt')
-    disp('        Input7: noise_level')
-    disp('        Input8: threshold')
+    disp('        Input2: test_mode')
+    disp('        Input3: mixer_freq')
+    disp('        Input4: noise_freq_start')
+    disp('        Input5: noise_freq_end')
+    disp('        Input6: noise_freq_step')
+    disp('        Input7: noise_phase_cnt')
+    disp('        Input8: noise_level')
+    disp('        Input9: threshold')
     % Default setting
-    test_mode        = (2^noise_types) - 1;    % Input 1, Select all bits
-    mixer_freq       = 200e3; % 200K           % Input 2
-    noise_freq_start = 1e3;   % 1K             % Input 3
+    test_mode        = (2^noise_types) - 1;    % Input 2, Select all bits
+    mixer_freq       = 200e3; % 200K           % Input 3
+    noise_freq_start = 1e3;   % 1K             % Input 4
     noise_freq_end   = 2e6;   % 2M            % Input 4
-    %noise_freq_end   = 10e3; % 400K           % Input 4
-    noise_freq_step  = 200;   % 200 % 1e3 1k   % Input 5
-    noise_phase_cnt  = 36;    % 360/18         % Input 6
+    %noise_freq_end   = 10e3; % 400K           % Input 5
+    noise_freq_step  = 200;   % 200 % 1e3 1k   % Input 6
+    noise_phase_cnt  = 36;    % 360/18         % Input 7
     noise_level      = 1;
     int_threshold    = 0;
+    if nargin == 0
+        desc         = 'Normal';
+        save_ws       = 0;
+    end
 end
+
 
 %Check Input Parameters
 if test_mode == 0 || test_mode >= (2^noise_types)
@@ -68,6 +74,7 @@ disp(sprintf('Mixer freq %d Khz', mixer_freq/1000));
 disp(sprintf('Sweep noise from %d Khz ~ %d Khz [step: %d Hz] [phase_cnt: %d]', noise_freq_start/1000, noise_freq_end/1000, noise_freq_step, noise_phase_cnt));
 disp(sprintf('      noise level %d', noise_level));
 disp(sprintf('      check INT Threshold %d', int_threshold));
+disp(sprintf('      desc: %s', desc));
 
 test_list = [];
 for curr_noise=1:(noise_types)
@@ -337,13 +344,19 @@ end
 %
 % Save to WS
 %
-assignin('base', 'noise_sweep_noise_freq',     test_freq);
+assignin('base', 'noise_sweep_freq',           test_freq);
 assignin('base', 'noise_sweep_sina_max',       sina_max_log);
 assignin('base', 'noise_sweep_sina_max_phase', sina_maxphase_log);
 assignin('base', 'noise_sweep_sqr_max',        sqr_max_log);
 assignin('base', 'noise_sweep_sqr_max_phase',  sqr_maxphase_log);
 assignin('base', 'noise_sweep_noise_type',     noise_type_str);
 
+if save_ws
+    disp('Save wordspace')
+    file_name = sprintf('log\\%s_signal_sweep.mat', desc);
+    disp(file_name);
+    save(file_name, 'test_freq', 'sina_max_log', 'sina_maxphase_log', 'sqr_max_log', 'sqr_maxphase_log', 'noise_type_str');
+end
 
 %
 % End

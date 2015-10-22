@@ -47,18 +47,20 @@ if nargin ~= 9
     disp('        Input7: noise_level')
     disp('        Input8: threshold')
     % Default setting
-    test_mode         = (2^noise_types) - 1;   % Input 1, Select all bits
-%    test_mode         = 1+2+4;                  % Input 1, Select BIT0 BIT1 BIT2
-    noise_scale       = 1;        % scale by mat file      % Input 2
-    signal_freq_start = 50e3;     % 1K          % Input 3
-%    signal_freq_end   = 2e6;    % 2M          % Input 4
-    signal_freq_end   = 400e3;   % 400K        % Input 4
-    signal_freq_step  = 1e3;   % 200 % 1e3 1k   % Input 5
-    signal_phase_cnt  = 6;    % 360/18         % Input 6
-    noise_level       = 1;
-    int_threshold     = 0;
-    if nargin == 0
-        desc          = 'Normal';
+    test_mode         = (2^noise_types) - 1;   % Input 2, Select all bits
+    noise_scale       = 1;                     % Input 3, scale by mat file
+    signal_freq_start = 1e3;                   % Input 4, 1K
+    signal_freq_end   = 2e6;                   % Input 5, 2M
+    signal_freq_step  = 1e3;                   % Input 6, 1K
+    signal_phase_cnt  = 6;                     % Input 7, 360/6 = 60
+    noise_level       = 1;                     % Input 8
+    int_threshold     = 0;                     % Input 9
+    if nargin == 1
+        % Run on default fully setting
+        desc          = sprintf('full_%s', desc);
+    else
+        % No save
+        desc          = 'NoSave';
         save_ws       = 0;
     end
 end

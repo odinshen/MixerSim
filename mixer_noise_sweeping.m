@@ -44,16 +44,19 @@ if nargin ~= 9
     disp('        Input9: threshold')
     % Default setting
     test_mode        = (2^noise_types) - 1;    % Input 2, Select all bits
-    mixer_freq       = 200e3; % 200K           % Input 3
-    noise_freq_start = 1e3;   % 1K             % Input 4
-    noise_freq_end   = 2e6;   % 2M            % Input 4
-    %noise_freq_end   = 10e3; % 400K           % Input 5
-    noise_freq_step  = 200;   % 200 % 1e3 1k   % Input 6
-    noise_phase_cnt  = 36;    % 360/18         % Input 7
-    noise_level      = 1;
-    int_threshold    = 0;
-    if nargin == 0
-        desc         = 'Normal';
+    mixer_freq       = 200e3;                  % Input 3, 200K
+    noise_freq_start = 1e3;                    % Input 4, 1K
+    noise_freq_end   = 2e6;                    % Input 5, 2M
+    noise_freq_step  = 200;   % 200 % 1e3 1k   % Input 6, 0.2K
+    noise_phase_cnt  = 36;    % 360/18         % Input 7, 360/36 = 10
+    noise_level      = 1;                      % Input 8,
+    int_threshold    = 0;                      % Input 9,
+    if nargin == 1
+        % Run on default fully setting
+        desc          = sprintf('full_%s', desc);
+    else
+        % No save
+        desc          = 'NoSave';
         save_ws       = 0;
     end
 end
